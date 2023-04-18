@@ -72,6 +72,7 @@
     <!-- We skip sources jar generation as we do it with the assembly plugin to have greater control over the content -->
     <source.skip>true</source.skip>
     <testcontainers.version>1.17.6</testcontainers.version>
+    <org.crac.version>1.5.0</org.crac.version>
   </properties>
 
   <dependencyManagement>

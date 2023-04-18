@@ -27,9 +27,13 @@ import io.vertx.sqlclient.spi.ConnectionFactory;
 import io.vertx.sqlclient.spi.DatabaseMetadata;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import org.crac.Core;
+import org.crac.Resource;
 
 /**
  * Todo :
@@ -38,7 +42,7 @@ import java.util.stream.Collectors;
  *
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
-public class SqlConnectionPool {
+public class SqlConnectionPool implements Resource {
 
   private final Function<Context, Future<SqlConnection>> connectionProvider;
   private final VertxInternal vertx;
@@ -99,6 +103,7 @@ public class SqlConnectionPool {
     } else {
       pool.contextProvider(ctx -> ctx.owner().createEventLoopContext(ctx.nettyEventLoop(), null, Thread.currentThread().getContextClassLoader()));
     }
+    Core.getGlobalContext().register(this);
   }
 
   private final PoolConnector<PooledConnection> connector = new PoolConnector<PooledConnection>() {
@@ -253,6 +258,27 @@ public class SqlConnectionPool {
       }
     });
     return promise.future();
+  }
+
+  @Override
+  public void beforeCheckpoint(org.crac.Context<? extends Resource> ctx) throws Exception {
+    CompletableFuture<Void> cf = new CompletableFuture<>();
+    pool.suspend(result -> {
+      if (result.failed()) {
+        cf.completeExceptionally(result.cause());
+      }
+      CompositeFuture.join(result.result().stream().map(
+        f -> f.compose(pooled -> Future.<Void>future(p -> pooled.conn.close(pooled, p)))
+      ).collect(Collectors.toList())).mapEmpty()
+        .onSuccess(ignored -> cf.complete(null))
+        .onFailure(cf::completeExceptionally);
+    });
+    cf.get();
+  }
+
+  @Override
+  public void afterRestore(org.crac.Context<? extends Resource> ctx) {
+    pool.resume();
   }
 
   public class PooledConnection implements Connection, Connection.Holder {

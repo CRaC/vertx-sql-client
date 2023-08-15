@@ -1,3 +1,18 @@
+
+# Fork information
+
+This is a forked version of the Vert.x project intended to be used before the support for CRaC lands in the official version. The artifact should be published on these Maven coordinates:
+
+```
+<dependency>
+   <groupId>io.github.crac.io.vertx</groupId>
+   <artifactId>vertx-sql-client</artifactId>
+   <version>[version].CRAC.[number]</version>
+</dependency>
+```
+
+where `[version]` matches a released Vert.x SQL client version and `[number]` is an increasing numeric identifier representing version of CRaC-related updates.
+
 = The Reactive SQL Client
 
 image:https://github.com/eclipse-vertx/vertx-sql-client/workflows/CI/badge.svg?branch=master["Build Status", link="https://github.com/eclipse-vertx/vertx-sql-client/actions?query=workflow%3ACI"]

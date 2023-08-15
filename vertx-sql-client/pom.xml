@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.vertx</groupId>
+    <groupId>io.github.crac.io.vertx</groupId>
     <artifactId>vertx-sql-client-parent</artifactId>
     <version>4.4.6</version>
   </parent>
@@ -41,7 +41,7 @@
 
     <!-- Vert.x dependencies -->
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
     </dependency>
     <dependency>

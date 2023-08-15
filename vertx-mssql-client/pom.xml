@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.vertx</groupId>
+    <groupId>io.github.crac.io.vertx</groupId>
     <artifactId>vertx-sql-client-parent</artifactId>
     <version>4.4.10-SNAPSHOT</version>
   </parent>
@@ -26,7 +26,7 @@
 
     <!-- Vert.x dependencies -->
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
     </dependency>
     <dependency>
@@ -40,9 +40,8 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-sql-client</artifactId>
-      <version>${stack.version}</version>
     </dependency>
 
     <!-- Testing purposes -->
@@ -53,7 +52,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-sql-client</artifactId>
       <type>test-jar</type>
       <scope>test</scope>

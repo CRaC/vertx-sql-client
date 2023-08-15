@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.vertx</groupId>
+    <groupId>io.github.crac.io.vertx</groupId>
     <artifactId>vertx-sql-client-parent</artifactId>
     <version>4.4.10-SNAPSHOT</version>
   </parent>
@@ -41,7 +41,7 @@
 
     <!-- Vert.x dependencies -->
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-sql-client</artifactId>
     </dependency>
     <dependency>
@@ -73,19 +73,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-pg-client</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-mysql-client</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.vertx</groupId>
+      <groupId>io.github.crac.io.vertx</groupId>
       <artifactId>vertx-pg-client</artifactId>
-      <version>4.4.10-SNAPSHOT</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

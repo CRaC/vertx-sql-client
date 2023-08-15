@@ -24,6 +24,7 @@
     <version>38</version>
   </parent>
 
+  <groupId>io.github.crac.io.vertx</groupId>
   <artifactId>vertx-sql-client-parent</artifactId>
   <version>4.3.8</version>
   <packaging>pom</packaging>
@@ -41,10 +42,21 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:eclipse-vertx/vertx-sql-client.git</connection>
-    <developerConnection>scm:git:git@github.com:eclipse-vertx/vertx-sql-client.git</developerConnection>
-    <url>git@github.com:eclipse-vertx/vertx-sql-client.git</url>
+    <connection>scm:git:git@github.com:CRaC/vertx-sql-client.git</connection>
+    <developerConnection>scm:git:git@github.com:CRaC/vertx-sql-client.git</developerConnection>
+    <url>git@github.com:CRaC/vertx-sql-client.git</url>
   </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 
   <properties>
     <stack.version>4.3.8</stack.version>
@@ -70,6 +82,17 @@
         <version>${stack.version}</version>
         <type>pom</type>
         <scope>import</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>io.vertx</groupId>
+            <artifactId>io.vertx</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>io.github.crac.io.vertx</groupId>
+        <artifactId>vertx-core</artifactId>
+        <version>4.3.8.CRAC.0</version>	     
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -113,12 +136,12 @@
       </activation>
       <modules>
         <module>vertx-sql-client</module>
-        <module>vertx-pg-client</module>
-        <module>vertx-mysql-client</module>
-        <module>vertx-mssql-client</module>
-        <module>vertx-db2-client</module>
-        <module>vertx-sql-client-templates</module>
-        <module>vertx-oracle-client</module>
+	<!-- <module>vertx-pg-client</module> -->
+	<!-- <module>vertx-mysql-client</module> -->
+	<!-- <module>vertx-mssql-client</module> -->
+	<!-- <module>vertx-db2-client</module> -->
+	<!-- <module>vertx-sql-client-templates</module> -->
+	<!-- <module>vertx-oracle-client</module> -->
       </modules>
     </profile>
     <profile>
@@ -241,6 +264,70 @@
         <module>vertx-oracle-client</module>
       </modules>
     </profile>
+    
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-source-plugin</artifactId>
+	      <executions>
+	        <execution>
+	          <id>attach-sources</id>
+	          <goals>
+		      <goal>jar-no-fork</goal>
+	          </goals>
+	        </execution>
+              </executions>
+	      </plugin>
+	      <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-javadoc-plugin</artifactId>
+		<executions>
+		  <execution>
+		    <id>attach-javadocs</id>
+		    <goals>
+		      <goal>jar</goal>
+		    </goals>
+		    <configuration>
+		      <source>11</source>
+		      <detectJavaApiLink>false</detectJavaApiLink>
+		    </configuration>
+		  </execution>
+		</executions>
+      </plugin>
+	  <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-gpg-plugin</artifactId>
+	    <version>1.5</version>
+	    <executions>
+	      <execution>
+		<id>sign-artifacts</id>
+		<phase>verify</phase>
+		<goals>
+		  <goal>sign</goal>
+		</goals>
+		<configuration>
+		  <keyname>${gpg.keyname}</keyname>
+		  <passphraseServerId>${gpg.keyname}</passphraseServerId>
+		</configuration>
+	      </execution>
+	    </executions>
+	  </plugin>
+	  <plugin>
+	    <groupId>org.sonatype.plugins</groupId>
+	    <artifactId>nexus-staging-maven-plugin</artifactId>
+	    <version>1.6.13</version>
+	    <extensions>true</extensions>
+	    <configuration>
+	      <serverId>ossrh</serverId>
+	      <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+	      <autoReleaseAfterClose>false</autoReleaseAfterClose>
+	    </configuration>
+	  </plugin>
+	</plugins>
+      </build>
+    </profile>
   </profiles>
-
 </project>
